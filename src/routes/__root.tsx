@@ -89,8 +89,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Pflaster Akademie – Erste-Hilfe-Kurse in Schkeuditz" },
       { name: "twitter:description", content: "Praxisnahe Erste-Hilfe-Kurse für Privatpersonen, Betriebe, Fahrschüler und Eltern. Wissen rettet Leben – wir zeigen dir wie." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46dc58b0-2dbc-48f0-b740-3def1abbdbce/id-preview-fe5da87b--774d298e-1e7f-481e-be50-e4dfaca2b61e.lovable.app-1781434558211.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46dc58b0-2dbc-48f0-b740-3def1abbdbce/id-preview-fe5da87b--774d298e-1e7f-481e-be50-e4dfaca2b61e.lovable.app-1781434558211.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/qxfwh0D8KVNKaFTctp7sNpwOpLC3/social-images/social-1781447967942-49ad38_e368cc6735484b4184cdd241e9ae09cf~mv2_(1).webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/qxfwh0D8KVNKaFTctp7sNpwOpLC3/social-images/social-1781447967942-49ad38_e368cc6735484b4184cdd241e9ae09cf~mv2_(1).webp" },
     ],
     links: [
       {
