@@ -82,11 +82,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Pflaster Akademie – Erste-Hilfe-Kurse in Schkeuditz" },
       { name: "description", content: "Praxisnahe Erste-Hilfe-Kurse für Privatpersonen, Betriebe, Fahrschüler und Eltern. Wissen rettet Leben – wir zeigen dir wie." },
       { name: "author", content: "Pflaster Akademie" },
-      { property: "og:title", content: "Pflaster Akademie" },
-      { property: "og:description", content: "Erste-Hilfe-Kurse mit Herz und Kompetenz in Schkeuditz." },
+      { property: "og:title", content: "Pflaster Akademie – Erste-Hilfe-Kurse in Schkeuditz" },
+      { property: "og:description", content: "Praxisnahe Erste-Hilfe-Kurse für Privatpersonen, Betriebe, Fahrschüler und Eltern. Wissen rettet Leben – wir zeigen dir wie." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Pflaster Akademie" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Pflaster Akademie – Erste-Hilfe-Kurse in Schkeuditz" },
+      { name: "twitter:description", content: "Praxisnahe Erste-Hilfe-Kurse für Privatpersonen, Betriebe, Fahrschüler und Eltern. Wissen rettet Leben – wir zeigen dir wie." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46dc58b0-2dbc-48f0-b740-3def1abbdbce/id-preview-fe5da87b--774d298e-1e7f-481e-be50-e4dfaca2b61e.lovable.app-1781434558211.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46dc58b0-2dbc-48f0-b740-3def1abbdbce/id-preview-fe5da87b--774d298e-1e7f-481e-be50-e4dfaca2b61e.lovable.app-1781434558211.png" },
     ],
     links: [
       {
