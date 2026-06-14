@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import logo from "../assets/logo.png";
+import logoMark from "../assets/logo-trim.png";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -140,13 +141,10 @@ const navLinks = [
 
 function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="Pflaster Akademie Logo" className="h-12 w-12 object-contain" />
-          <span className="hidden text-lg font-semibold tracking-tight text-[var(--primary-deep)] sm:inline">
-            Pflaster Akademie
-          </span>
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
+        <Link to="/" className="flex items-center" aria-label="Pflaster Akademie – Startseite">
+          <img src={logoMark} alt="Pflaster Akademie" className="h-11 w-auto object-contain" />
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
           {navLinks.map((l) => (
@@ -154,12 +152,18 @@ function SiteHeader() {
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground"
-              activeProps={{ className: "rounded-md px-3 py-2 text-sm font-semibold text-primary bg-secondary" }}
+              className="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "rounded-full px-3 py-2 text-sm font-semibold text-primary bg-secondary" }}
             >
               {l.label}
             </Link>
           ))}
+          <Link
+            to="/kontakt"
+            className="ml-1 hidden rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 sm:inline-flex"
+          >
+            Jetzt anmelden
+          </Link>
         </nav>
       </div>
     </header>
