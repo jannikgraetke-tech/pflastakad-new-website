@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Check, Clock, Users, Award, ShieldCheck, ArrowRight, ChevronLeft, Star } from "lucide-react";
 import { courseBySlug } from "@/data/courses";
+import { CourseInquiryForm } from "@/components/course-inquiry-form";
 import { fadeUp, cardIn, stagger, viewportOnce } from "@/lib/motion";
 
 export const Route = createFileRoute("/kurse/$slug")({
@@ -25,12 +26,6 @@ const trust = [
   { icon: ShieldCheck, label: "Zertifiziert nach BG/DGUV" },
   { icon: Users, label: "Kleine Gruppen, viel Praxis" },
   { icon: Star, label: "4,9 / 5 Teilnehmerbewertung" },
-];
-
-const faqs = [
-  { q: "Brauche ich Vorkenntnisse?", a: "Nein. Unsere Kurse sind so aufgebaut, dass jeder mitkommt – ganz ohne medizinisches Vorwissen." },
-  { q: "Bekomme ich eine Bescheinigung?", a: "Ja, du erhältst nach dem Kurs eine entsprechende Teilnahmebescheinigung bzw. den passenden Nachweis." },
-  { q: "Können wir auch als Gruppe oder vor Ort buchen?", a: "Sehr gern. Für Firmen, Vereine und Gruppen bieten wir individuelle Termine – auf Wunsch als Inhouse-Schulung bei euch vor Ort." },
 ];
 
 function CourseDetail() {
@@ -72,19 +67,18 @@ function CourseDetail() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={course.bookingUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  href="#anfragen"
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
                 >
-                  {course.bookingCta}
+                  Diesen Kurs anfragen
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </a>
                 <Link
                   to="/kontakt"
+                  search={{ kurs: course.slug }}
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-base font-semibold text-foreground transition hover:bg-secondary"
                 >
-                  Frage stellen
+                  Allgemeiner Kontakt
                 </Link>
               </div>
             </motion.div>
@@ -153,22 +147,6 @@ function CourseDetail() {
               </blockquote>
               <figcaption className="mt-4 text-sm font-semibold text-primary">— Teilnehmerin der Pflaster Akademie</figcaption>
             </figure>
-
-            {/* FAQ */}
-            <div className="mt-12">
-              <h3 className="text-xl font-bold text-[var(--primary-deep)]">Häufige Fragen</h3>
-              <div className="mt-4 space-y-3">
-                {faqs.map((f) => (
-                  <details key={f.q} className="group rounded-xl border border-border bg-card p-5">
-                    <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-foreground marker:hidden">
-                      {f.q}
-                      <span className="text-muted-foreground transition-transform group-open:rotate-180">▾</span>
-                    </summary>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
-                  </details>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Sticky booking card */}
@@ -196,19 +174,18 @@ function CourseDetail() {
                     <Award className="h-4 w-4 text-primary" /> {course.certificate}
                   </div>
                   <a
-                    href={course.bookingUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                    href="#anfragen"
                     className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
                   >
-                    {course.bookingCta}
+                    Diesen Kurs anfragen
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </a>
                   <Link
                     to="/kontakt"
+                    search={{ kurs: course.slug }}
                     className="flex w-full items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary"
                   >
-                    Unverbindlich anfragen
+                    Allgemeiner Kontakt
                   </Link>
                 </div>
               </motion.div>
@@ -217,31 +194,10 @@ function CourseDetail() {
         </div>
       </div>
 
-      {/* Final CTA */}
-      <section className="bg-[var(--primary-deep)]">
-        <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
-          <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
-            Sichere dir deinen Platz im {course.title}
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-primary-foreground/80">
-            Wissen rettet Leben – wir zeigen dir wie. Melde dich jetzt an oder stelle uns deine Fragen.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a
-              href={course.bookingUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
-            >
-              {course.bookingCta} <ArrowRight className="h-4 w-4" />
-            </a>
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-base font-semibold text-primary-foreground backdrop-blur transition hover:bg-white/20"
-            >
-              Kontakt aufnehmen
-            </Link>
-          </div>
+      {/* Inquiry form — request this exact course, no redirect */}
+      <section id="anfragen" className="scroll-mt-24 bg-secondary/30 py-16 sm:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <CourseInquiryForm courseTitle={course.title} />
         </div>
       </section>
     </div>

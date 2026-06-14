@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   HeartPulse, HeartHandshake, ShieldPlus, Dog, Baby, Car, Ambulance, ArrowUpRight, Star, Quote,
 } from "lucide-react";
-import trainingImg from "../assets/training.jpg";
 import { Hero } from "@/components/hero";
 import { fadeUp, cardIn, stagger, viewportOnce } from "@/lib/motion";
 
@@ -135,36 +134,40 @@ function Index() {
             className="relative"
           >
             <img
-              src={trainingImg}
-              alt="Trainingsgruppe übt Erste Hilfe"
-              width={1600}
-              height={1067}
+              src="https://images.unsplash.com/photo-1526080652727-5b77f74eacd2?w=1200&q=80&auto=format&fit=crop"
+              alt="Pflaster Akademie – Erste-Hilfe-Ausbildung mit Herz"
+              width={1200}
+              height={1500}
               loading="lazy"
-              className="rounded-3xl object-cover shadow-[var(--shadow-soft)]"
+              className="aspect-[4/5] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)]"
             />
             <div className="absolute -bottom-5 -left-5 rounded-2xl bg-[var(--primary-deep)] px-5 py-4 text-primary-foreground shadow-xl">
-              <p className="font-serif text-xl font-bold">Schkeuditz-Dölzig</p>
-              <p className="text-xs text-primary-foreground/70">Westringstr. 43</p>
+              <p className="font-serif text-lg font-bold">Lia Chiara Daum</p>
+              <p className="text-xs text-primary-foreground/70">Gründerin der Pflaster Akademie</p>
             </div>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewportOnce}>
             <motion.span variants={fadeUp} className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
-              Über uns
+              Meine Mission
             </motion.span>
             <motion.h2 variants={fadeUp} className="mt-3 text-3xl font-bold tracking-tight text-[var(--primary-deep)] sm:text-4xl">
-              Erste Hilfe rettet Leben – und jeder kann sie leisten.
+              Warum ich die Pflaster Akademie gegründet habe.
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-4 text-muted-foreground">
-              Unser Team aus erfahrenen Ausbilderinnen und Ausbildern bringt medizinisches Know-how,
-              pädagogische Qualifikation und ganz viel Herzblut mit. Wir machen Erste Hilfe für jeden
-              verständlich – im Alltag, im Beruf oder auf der Rennstrecke.
+              Zu viele Menschen trauen sich im Notfall nichts zu – aus Angst, etwas falsch zu machen.
+              Genau das wollte ich ändern. Ich vermittle Erste Hilfe so, dass du im entscheidenden
+              Moment ruhig bleibst und handelst: praxisnah, auf Augenhöhe und mit echtem Wissen, das
+              Leben rettet.
+            </motion.p>
+            <motion.p variants={fadeUp} className="mt-4 font-serif text-lg text-[var(--primary-deep)]">
+              — Lia Chiara Daum
             </motion.p>
             <motion.div variants={fadeUp}>
               <Link
                 to="/info"
                 className="mt-6 inline-flex rounded-full bg-[var(--primary-deep)] px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:brightness-125"
               >
-                Unsere Vision
+                Mehr über uns
               </Link>
             </motion.div>
           </motion.div>

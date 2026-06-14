@@ -1,10 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { courses, courseBySlug } from "@/data/courses";
+
+type KontaktSearch = { kurs?: string };
 
 export const Route = createFileRoute("/kontakt")({
+  validateSearch: (search: Record<string, unknown>): KontaktSearch => ({
+    kurs: typeof search.kurs === "string" ? search.kurs : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Kontakt – Pflaster Akademie" },
-      { name: "description", content: "Kontaktiere die Pflaster Akademie in Schkeuditz – per E-Mail oder über das Kontaktformular." },
+      { name: "description", content: "Kontaktiere die Pflaster Akademie in Schkeuditz – per E-Mail oder über das Kontaktformular. Wähle direkt den passenden Kurs." },
       { property: "og:title", content: "Kontakt – Pflaster Akademie" },
       { property: "og:description", content: "Wir freuen uns auf deine Nachricht." },
       { property: "og:url", content: "/kontakt" },
@@ -15,16 +21,19 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function KontaktPage() {
+  const { kurs } = Route.useSearch();
+  const preselected = kurs && courseBySlug(kurs) ? courseBySlug(kurs)!.title : "";
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
       <header className="text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Kontakt</p>
-        <h1 className="mt-3 text-4xl font-bold text-[var(--primary-deep)] sm:text-5xl">
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-[var(--primary-deep)] sm:text-5xl">
           Schreib uns
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Hast du Fragen zu Kursen, Terminen oder einem maßgeschneiderten Angebot? Wir melden uns
-          schnell zurück.
+          Fragen zu Kursen, Terminen oder einem maßgeschneiderten Angebot? Wähle deinen Wunschkurs
+          und wir melden uns schnell zurück.
         </p>
       </header>
 
@@ -44,6 +53,10 @@ function KontaktPage() {
               info@pflastakad.com
             </a>
           </p>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Tipp: Über jede Kursseite kannst du auch direkt den passenden Kurs anfragen – wir
+            haben dann sofort alle Infos.
+          </p>
         </div>
 
         <form
@@ -53,6 +66,19 @@ function KontaktPage() {
           encType="text/plain"
         >
           <div className="grid gap-4">
+            <label className="grid gap-1 text-sm">
+              <span className="font-medium text-foreground">Kurs</span>
+              <select
+                name="kurs"
+                defaultValue={preselected}
+                className="h-11 rounded-md border border-input bg-background px-3 text-sm outline-none focus:border-primary"
+              >
+                <option value="">Allgemeine Anfrage</option>
+                {courses.map((c) => (
+                  <option key={c.slug} value={c.title}>{c.title}</option>
+                ))}
+              </select>
+            </label>
             <label className="grid gap-1 text-sm">
               <span className="font-medium text-foreground">Name</span>
               <input

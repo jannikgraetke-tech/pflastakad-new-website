@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
 export function Hero() {
@@ -21,13 +20,8 @@ export function Hero() {
       <div className="absolute inset-0 -z-20 bg-gradient-to-b from-[#0b1024]/85 via-[#0b1024]/55 to-[#0b1024]/90" />
       <div className="hero-mesh absolute inset-0 -z-10 opacity-70" />
 
-      {/* Centered content */}
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto max-w-4xl px-4 pt-24 pb-20 text-center sm:px-6"
-      >
+      {/* Centered content — CSS entrance so it stays visible even without JS */}
+      <div className="animate-rise mx-auto max-w-4xl px-4 pt-24 pb-20 text-center sm:px-6">
         <span className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200 backdrop-blur">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
@@ -36,14 +30,14 @@ export function Hero() {
           Gemeinsam sicher handeln
         </span>
 
-        <h1 className="mt-7 text-5xl font-bold leading-[1.02] tracking-tight text-white sm:text-7xl lg:text-8xl">
-          Wissen rettet Leben.
-          <span className="mt-2 block bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 bg-clip-text text-transparent">
+        <h1 className="mx-auto mt-7 max-w-3xl text-balance text-5xl font-bold leading-[1.1] tracking-tight text-white sm:text-6xl lg:text-7xl">
+          Wissen rettet Leben.{" "}
+          <span className="inline-block bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 bg-clip-text pb-2 leading-[1.2] text-transparent">
             Wir zeigen dir wie.
           </span>
         </h1>
 
-        <p className="mx-auto mt-7 max-w-2xl text-lg text-white/80 sm:text-xl">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">
           Praxisnahe Erste-Hilfe-Kurse für Privat, Betrieb und Familie – von erfahrenen Trainern,
           in entspannter Atmosphäre in Schkeuditz-Dölzig.
         </p>
@@ -63,7 +57,7 @@ export function Hero() {
             Alle 10 Kurse ansehen
           </Link>
         </div>
-      </motion.div>
+      </div>
 
       {/* Scroll cue */}
       <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-white/55">

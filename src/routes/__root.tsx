@@ -172,36 +172,35 @@ function SiteHeader() {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-[var(--primary-deep)] text-primary-foreground">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
+    <footer className="border-t border-border bg-muted text-foreground">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-3">
         <div>
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="" className="h-10 w-10 object-contain" />
-            <span className="text-lg font-semibold">Pflaster Akademie</span>
-          </div>
-          <p className="mt-3 text-sm text-primary-foreground/80">
-            Wissen rettet Leben – wir zeigen dir wie.
+          <img src={logoMark} alt="Pflaster Akademie" className="h-14 w-auto object-contain" />
+          <p className="mt-4 max-w-xs text-sm text-muted-foreground">
+            Wissen rettet Leben – wir zeigen dir wie. Erste-Hilfe-Kurse in Schkeuditz-Dölzig.
           </p>
         </div>
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary-foreground/70">Kontakt</h3>
-          <p className="mt-3 text-sm text-primary-foreground/90">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Kontakt</h3>
+          <p className="mt-3 text-sm text-muted-foreground">
             Westringstr. 43<br />
             04435 Schkeuditz OT Dölzig<br />
-            <a href="mailto:info@pflastakad.com" className="underline-offset-4 hover:underline">info@pflastakad.com</a>
+            <a href="mailto:info@pflastakad.com" className="text-primary underline-offset-4 hover:underline">info@pflastakad.com</a>
           </p>
         </div>
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary-foreground/70">Mehr</h3>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li><Link to="/kurse" className="hover:underline">Kursangebote</Link></li>
-            <li><Link to="/info" className="hover:underline">Über uns</Link></li>
-            <li><Link to="/impressum" className="hover:underline">Impressum</Link></li>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Mehr</h3>
+          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/kurse" className="hover:text-primary">Kursangebote</Link></li>
+            <li><Link to="/info" className="hover:text-primary">Über uns</Link></li>
+            <li><Link to="/kontakt" className="hover:text-primary">Kontakt</Link></li>
+            <li><Link to="/impressum" className="hover:text-primary">Impressum</Link></li>
+            <li><Link to="/datenschutz" className="hover:text-primary">Datenschutz</Link></li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/60">
-        © {new Date().getFullYear()} Pflaster Akademie · Lia Chiara Daum
+      <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Pflaster Akademie · Inhaberin Lia Chiara Daum
       </div>
     </footer>
   );
