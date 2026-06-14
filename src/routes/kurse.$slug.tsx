@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Check, Clock, Users, Award, ShieldCheck, ArrowRight, ChevronLeft, Star } from "lucide-react";
 import { courseBySlug } from "@/data/courses";
 import { fadeUp, cardIn, stagger, viewportOnce } from "@/lib/motion";
+import { CourseInquiryForm } from "@/components/course-inquiry-form";
 
 export const Route = createFileRoute("/kurse/$slug")({
   loader: ({ params }) => {
@@ -72,16 +73,15 @@ function CourseDetail() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={course.bookingUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  href="#anfragen"
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
                 >
-                  {course.bookingCta}
+                  Jetzt anfragen
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </a>
                 <Link
                   to="/kontakt"
+                  search={{ kurs: course.slug }}
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-base font-semibold text-foreground transition hover:bg-secondary"
                 >
                   Frage stellen
@@ -196,20 +196,18 @@ function CourseDetail() {
                     <Award className="h-4 w-4 text-primary" /> {course.certificate}
                   </div>
                   <a
-                    href={course.bookingUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                    href="#anfragen"
                     className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
                   >
-                    {course.bookingCta}
+                    Kurs anfragen
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </a>
-                  <Link
-                    to="/kontakt"
+                  <a
+                    href="mailto:info@pflastakad.com"
                     className="flex w-full items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary"
                   >
-                    Unverbindlich anfragen
-                  </Link>
+                    Direkt per E-Mail
+                  </a>
                 </div>
               </motion.div>
             </div>
@@ -218,6 +216,29 @@ function CourseDetail() {
       </div>
 
       {/* Final CTA */}
+      <section id="anfragen" className="brand-wash border-t border-border bg-secondary/40">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1fr_1.1fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+              {course.title} buchen
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-[var(--primary-deep)] sm:text-4xl">
+              Platz sichern – ganz unkompliziert.
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Schreib uns kurz, was du brauchst – Wunschtermin, Teilnehmerzahl oder offene Fragen.
+              Wir melden uns meist innerhalb eines Werktags mit konkreten Terminen zurück.
+            </p>
+            <ul className="mt-6 space-y-2 text-sm text-foreground/90">
+              <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 text-primary" /> Unverbindliche Anfrage</li>
+              <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 text-primary" /> Persönliche Rückmeldung – kein Bot</li>
+              <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 text-primary" /> Auch Inhouse / Gruppentermine möglich</li>
+            </ul>
+          </div>
+          <CourseInquiryForm courseTitle={course.title} />
+        </div>
+      </section>
+
       <section className="bg-[var(--primary-deep)]">
         <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
           <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
@@ -228,15 +249,14 @@ function CourseDetail() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
-              href={course.bookingUrl}
-              target="_blank"
-              rel="noreferrer"
+              href="#anfragen"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
             >
-              {course.bookingCta} <ArrowRight className="h-4 w-4" />
+              Jetzt anfragen <ArrowRight className="h-4 w-4" />
             </a>
             <Link
               to="/kontakt"
+              search={{ kurs: course.slug }}
               className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-base font-semibold text-primary-foreground backdrop-blur transition hover:bg-white/20"
             >
               Kontakt aufnehmen
