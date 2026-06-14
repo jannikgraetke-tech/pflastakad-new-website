@@ -1,8 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { MapPin, Mail, Clock, Check, Send, ShieldCheck } from "lucide-react";
+import { MapPin, Mail, Clock, Check, Send, ShieldCheck, Loader2 } from "lucide-react";
 import { courses, courseBySlug } from "@/data/courses";
+import { sendInquiry } from "@/lib/send-inquiry";
+
+type Status = "idle" | "sending" | "sent" | "mailto" | "error";
 
 export const Route = createFileRoute("/kontakt")({
   validateSearch: z.object({ kurs: z.string().optional() }),
@@ -28,24 +31,31 @@ const trust = [
 function KontaktPage() {
   const { kurs } = Route.useSearch();
   const preselected = (kurs && courseBySlug(kurs)?.title) || "";
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const sent = status === "sent" || status === "mailto";
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const get = (k: string) => String(data.get(k) ?? "").trim();
     const kursWahl = get("kurs") || "Allgemeine Anfrage";
-    const body =
-      `Kurs: ${kursWahl}\n` +
-      `Name: ${get("name")}\n` +
-      `E-Mail: ${get("email")}\n` +
-      `Telefon: ${get("phone")}\n` +
-      `Teilnehmer: ${get("participants")}\n` +
-      `Wunschtermin: ${get("date")}\n\n` +
-      `Nachricht:\n${get("message")}\n`;
-    window.location.href =
-      `mailto:info@pflastakad.com?subject=${encodeURIComponent(`Anfrage: ${kursWahl}`)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+
+    setStatus("sending");
+    try {
+      const result = await sendInquiry({
+        subject: `Anfrage: ${kursWahl}`,
+        kurs: kursWahl,
+        name: get("name"),
+        email: get("email"),
+        phone: get("phone"),
+        participants: get("participants"),
+        date: get("date"),
+        message: get("message"),
+      });
+      setStatus(result);
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -165,15 +175,25 @@ function KontaktPage() {
 
             <button
               type="submit"
-              disabled={sent}
-              className="mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 disabled:bg-emerald-600"
+              disabled={status === "sending" || sent}
+              className="mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 disabled:opacity-100 disabled:bg-emerald-600"
             >
-              {sent ? (<><Check className="h-5 w-5" /> Anfrage gesendet</>) : (<>Anfrage senden <Send className="h-4 w-4" /></>)}
+              {status === "sending" ? (
+                <><Loader2 className="h-5 w-5 animate-spin" /> Wird gesendet …</>
+              ) : sent ? (
+                <><Check className="h-5 w-5" /> {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}</>
+              ) : (
+                <>Anfrage senden <Send className="h-4 w-4" /></>
+              )}
             </button>
             <p aria-live="polite" className="text-center text-xs text-muted-foreground">
-              {sent
-                ? "Danke! Dein E-Mail-Programm hat sich geöffnet – schick die Anfrage einfach ab, wir melden uns schnell zurück."
-                : "Mit dem Absenden öffnet sich dein E-Mail-Programm mit allen Angaben an info@pflastakad.com."}
+              {status === "sent"
+                ? "Danke! Deine Anfrage ist bei uns eingegangen – wir melden uns meist innerhalb eines Werktags zurück."
+                : status === "mailto"
+                  ? "Dein E-Mail-Programm hat sich geöffnet – schick die vorbereitete Anfrage einfach ab."
+                  : status === "error"
+                    ? "Senden hat leider nicht geklappt. Bitte schreib uns direkt an info@pflastakad.com."
+                    : "Mit dem Absenden geht deine Anfrage direkt an info@pflastakad.com."}
             </p>
           </div>
         </form>

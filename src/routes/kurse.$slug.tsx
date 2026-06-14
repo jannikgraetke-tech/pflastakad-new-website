@@ -143,9 +143,9 @@ function CourseDetail() {
                 ))}
               </div>
               <blockquote className="mt-3 text-lg leading-relaxed text-foreground/90">
-                „Praxisnah, geduldig erklärt und nie langweilig – ich habe mich danach wirklich sicher gefühlt."
+                „{course.review}"
               </blockquote>
-              <figcaption className="mt-4 text-sm font-semibold text-primary">— Teilnehmerin der Pflaster Akademie</figcaption>
+              <figcaption className="mt-4 text-sm font-semibold text-primary">— Teilnehmer der Pflaster Akademie</figcaption>
             </figure>
           </div>
 

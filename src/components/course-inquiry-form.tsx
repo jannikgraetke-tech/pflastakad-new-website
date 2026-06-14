@@ -1,36 +1,42 @@
 import { useState, type FormEvent } from "react";
-import { Check, Send } from "lucide-react";
+import { Check, Send, Loader2 } from "lucide-react";
+import { sendInquiry } from "@/lib/send-inquiry";
 
 type Props = {
   courseTitle: string;
   compact?: boolean;
 };
 
-export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
-  const [sent, setSent] = useState(false);
+type Status = "idle" | "sending" | "sent" | "mailto" | "error";
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
+  const [status, setStatus] = useState<Status>("idle");
+  const done = status === "sent" || status === "mailto";
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
+    const data = new FormData(e.currentTarget);
     const name = String(data.get("name") ?? "").trim().slice(0, 120);
     const email = String(data.get("email") ?? "").trim().slice(0, 200);
     const phone = String(data.get("phone") ?? "").trim().slice(0, 60);
     const participants = String(data.get("participants") ?? "").trim().slice(0, 20);
     const message = String(data.get("message") ?? "").trim().slice(0, 2000);
 
-    const subject = `Kursanfrage: ${courseTitle}`;
-    const body =
-      `Kurs: ${courseTitle}\n` +
-      `Name: ${name}\n` +
-      `E-Mail: ${email}\n` +
-      `Telefon: ${phone}\n` +
-      `Teilnehmer: ${participants}\n\n` +
-      `Nachricht:\n${message}\n`;
-
-    window.location.href =
-      `mailto:info@pflastakad.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setStatus("sending");
+    try {
+      const result = await sendInquiry({
+        subject: `Kursanfrage: ${courseTitle}`,
+        kurs: courseTitle,
+        name,
+        email,
+        phone,
+        participants,
+        message,
+      });
+      setStatus(result);
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -110,11 +116,16 @@ export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
 
       <button
         type="submit"
-        className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110"
+        disabled={status === "sending" || done}
+        className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-emerald-600 disabled:opacity-100"
       >
-        {sent ? (
+        {status === "sending" ? (
           <>
-            <Check className="h-4 w-4" /> E-Mail geöffnet
+            <Loader2 className="h-4 w-4 animate-spin" /> Wird gesendet …
+          </>
+        ) : done ? (
+          <>
+            <Check className="h-4 w-4" /> {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}
           </>
         ) : (
           <>
@@ -122,9 +133,14 @@ export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
           </>
         )}
       </button>
-      <p className="text-xs text-muted-foreground">
-        Mit dem Absenden öffnet sich dein E-Mail-Programm mit einer vorbereiteten Nachricht an
-        info@pflastakad.com.
+      <p aria-live="polite" className="text-xs text-muted-foreground">
+        {status === "sent"
+          ? "Danke! Deine Anfrage ist bei uns eingegangen – wir melden uns meist innerhalb eines Werktags."
+          : status === "mailto"
+            ? "Dein E-Mail-Programm hat sich geöffnet – schick die vorbereitete Nachricht einfach ab."
+            : status === "error"
+              ? "Senden hat leider nicht geklappt. Bitte schreib uns direkt an info@pflastakad.com."
+              : "Unverbindlich – wir melden uns meist innerhalb eines Werktags an info@pflastakad.com."}
       </p>
     </form>
   );

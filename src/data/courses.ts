@@ -18,6 +18,7 @@ export type Course = {
   bookingUrl: string;
   bookingCta: string;
   image: string;
+  review: string;
 };
 
 export const courses: Course[] = [
@@ -43,6 +44,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/erste-hilfe-am-hund",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1200&q=80&auto=format&fit=crop",
+    review: "Endlich weiß ich, wie ich meinem Hund im Ernstfall helfen kann – super praxisnah erklärt.",
   },
   {
     slug: "auffrischung-erste-hilfe",
@@ -66,6 +68,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/auffrischung-erste-hilfe",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1622115297822-a3798fdbe1f6?w=1200&q=80&auto=format&fit=crop",
+    review: "Nach Jahren ohne Übung saß plötzlich wieder alles. Kompakt, locker und ohne erhobenen Zeigefinger.",
   },
   {
     slug: "betrieblicher-ersthelfer-grundkurs",
@@ -89,6 +92,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/betrieblicher-ersthelfer-grundkurs",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1624638760852-8ede1666ab07?w=1200&q=80&auto=format&fit=crop",
+    review: "Unser ganzes Team fühlt sich jetzt sicher. Die Ausbildung war kurzweilig und absolut praxisnah.",
   },
   {
     slug: "betrieblicher-ersthelfer-fortbildung",
@@ -112,6 +116,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/betrieblicher-ersthelfer-fortbildung",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1564144573017-8dc932e0039e?w=1200&q=80&auto=format&fit=crop",
+    review: "Eine Pflicht-Fortbildung, die wirklich Spaß gemacht hat – viele echte Fallbeispiele statt trockener Theorie.",
   },
   {
     slug: "erste-hilfe-fuer-fahrschueler",
@@ -135,6 +140,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/booking-calendar/erste-hilfe-f%C3%BCr-fahrsch%C3%BCler",
     bookingCta: "Termin buchen",
     image: "https://images.unsplash.com/photo-1618737739013-aed8938604fb?w=1200&q=80&auto=format&fit=crop",
+    review: "In einem Tag erledigt und total entspannt erklärt. Hat sich überhaupt nicht wie Pflicht angefühlt.",
   },
   {
     slug: "erste-hilfe-fuer-eltern-grosseltern",
@@ -158,6 +164,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/booking-calendar/erste-hilfe-f%C3%BCr-eltern-gro%C3%9Feltern",
     bookingCta: "Termin buchen",
     image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1200&q=80&auto=format&fit=crop",
+    review: "Als Mama war ich danach viel ruhiger. Die Inhalte zu Säuglingen und Kindern waren genau richtig.",
   },
   {
     slug: "erste-hilfe-spezial",
@@ -180,6 +187,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/erste-hilfe-spezial",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1200&q=80&auto=format&fit=crop",
+    review: "Genau auf unser Thema zugeschnitten – man merkt, dass hier richtig mitgedacht wird.",
   },
   {
     slug: "notfalltraining",
@@ -203,6 +211,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/service-page/notfalltraining",
     bookingCta: "Kurs ansehen",
     image: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=1200&q=80&auto=format&fit=crop",
+    review: "Realistische Szenarien und ehrliches Feedback. Unser Praxisteam geht jetzt viel strukturierter in Notfälle.",
   },
   {
     slug: "erste-hilfe-beratung",
@@ -225,6 +234,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/booking-calendar/erste-hilfe-beratung-1",
     bookingCta: "Beratung anfragen",
     image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80&auto=format&fit=crop",
+    review: "Kompetente, unabhängige Beratung – wir wissen jetzt genau, was unser Betrieb wirklich braucht.",
   },
   {
     slug: "injektions-und-medikamententraining",
@@ -248,6 +258,7 @@ export const courses: Course[] = [
     bookingUrl: "https://www.pflastakad.com/booking-calendar/injektions-und-medikamententraining",
     bookingCta: "Termin buchen",
     image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1200&q=80&auto=format&fit=crop",
+    review: "Viel Übung und klare Erklärungen. Beim Injizieren fühle ich mich jetzt deutlich sicherer.",
   },
 ];
 
