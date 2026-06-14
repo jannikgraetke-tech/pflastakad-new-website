@@ -38,7 +38,7 @@ export function Hero() {
 
         <h1 className="mt-7 text-5xl font-bold leading-[1.02] tracking-tight text-white sm:text-7xl lg:text-8xl">
           Wissen rettet Leben.
-          <span className="mt-2 block bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 bg-clip-text text-transparent">
+          <span className="mt-2 block bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 bg-clip-text text-transparent pb-2 leading-[1.15]">
             Wir zeigen dir wie.
           </span>
         </h1>
