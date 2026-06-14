@@ -4,6 +4,7 @@ import {
   HeartPulse, HeartHandshake, ShieldPlus, Dog, Baby, Car, Ambulance, ArrowUpRight, Star, Quote,
 } from "lucide-react";
 import { Hero } from "@/components/hero";
+import founderImg from "../assets/founder.jpg";
 import { fadeUp, cardIn, stagger, viewportOnce } from "@/lib/motion";
 
 export const Route = createFileRoute("/")({
@@ -134,12 +135,12 @@ function Index() {
             className="relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1526080652727-5b77f74eacd2?w=1200&q=80&auto=format&fit=crop"
-              alt="Pflaster Akademie – Erste-Hilfe-Ausbildung mit Herz"
-              width={1200}
-              height={1500}
+              src={founderImg}
+              alt="Lia Chiara Daum, Gründerin der Pflaster Akademie"
+              width={1600}
+              height={1137}
               loading="lazy"
-              className="aspect-[4/5] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)]"
+              className="aspect-[4/3] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)]"
             />
             <div className="absolute -bottom-5 -left-5 rounded-2xl bg-[var(--primary-deep)] px-5 py-4 text-primary-foreground shadow-xl">
               <p className="font-serif text-lg font-bold">Lia Chiara Daum</p>
