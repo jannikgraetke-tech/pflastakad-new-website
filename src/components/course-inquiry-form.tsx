@@ -16,11 +16,21 @@ export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") ?? "").trim().slice(0, 120);
-    const email = String(data.get("email") ?? "").trim().slice(0, 200);
-    const phone = String(data.get("phone") ?? "").trim().slice(0, 60);
-    const participants = String(data.get("participants") ?? "").trim().slice(0, 20);
-    const message = String(data.get("message") ?? "").trim().slice(0, 2000);
+    const name = String(data.get("name") ?? "")
+      .trim()
+      .slice(0, 120);
+    const email = String(data.get("email") ?? "")
+      .trim()
+      .slice(0, 200);
+    const phone = String(data.get("phone") ?? "")
+      .trim()
+      .slice(0, 60);
+    const participants = String(data.get("participants") ?? "")
+      .trim()
+      .slice(0, 20);
+    const message = String(data.get("message") ?? "")
+      .trim()
+      .slice(0, 2000);
 
     setStatus("sending");
     try {
@@ -50,11 +60,10 @@ export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
     >
       {!compact && (
         <div>
-          <h3 className="text-xl font-bold text-[var(--primary-deep)]">
-            {courseTitle} anfragen
-          </h3>
+          <h3 className="text-xl font-bold text-[var(--primary-deep)]">{courseTitle} anfragen</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Unverbindlich – wir melden uns meist innerhalb eines Werktags mit passenden Terminen zurück.
+            Unverbindlich – wir melden uns meist innerhalb eines Werktags mit passenden Terminen
+            zurück.
           </p>
         </div>
       )}
@@ -125,7 +134,8 @@ export function CourseInquiryForm({ courseTitle, compact = false }: Props) {
           </>
         ) : done ? (
           <>
-            <Check className="h-4 w-4" /> {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}
+            <Check className="h-4 w-4" />{" "}
+            {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}
           </>
         ) : (
           <>

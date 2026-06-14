@@ -43,8 +43,7 @@ function buildBody(f: InquiryFields) {
 /** "sent" = per E-Mail an info@ verschickt · "mailto" = Mailprogramm geöffnet (kein Key gesetzt). */
 export async function sendInquiry(f: InquiryFields): Promise<"sent" | "mailto"> {
   if (!ACCESS_KEY) {
-    window.location.href =
-      `mailto:${INFO_MAIL}?subject=${encodeURIComponent(f.subject)}&body=${encodeURIComponent(buildBody(f))}`;
+    window.location.href = `mailto:${INFO_MAIL}?subject=${encodeURIComponent(f.subject)}&body=${encodeURIComponent(buildBody(f))}`;
     return "mailto";
   }
 
@@ -66,7 +65,10 @@ export async function sendInquiry(f: InquiryFields): Promise<"sent" | "mailto"> 
     }),
   });
 
-  const data = (await res.json().catch(() => ({ success: false }))) as { success?: boolean; message?: string };
+  const data = (await res.json().catch(() => ({ success: false }))) as {
+    success?: boolean;
+    message?: string;
+  };
   if (!data.success) throw new Error(data.message || "Senden fehlgeschlagen");
   return "sent";
 }

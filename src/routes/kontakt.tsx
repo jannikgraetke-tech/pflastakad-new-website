@@ -1,18 +1,52 @@
 import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { MapPin, Mail, Clock, Check, Send, ShieldCheck, Loader2 } from "lucide-react";
+import {
+  MapPin,
+  Mail,
+  Clock,
+  Check,
+  Send,
+  ShieldCheck,
+  Loader2,
+  CalendarDays,
+  X,
+} from "lucide-react";
+import { format } from "date-fns";
+import { de } from "date-fns/locale";
+import { de as deCalendar } from "react-day-picker/locale";
 import { courses, courseBySlug } from "@/data/courses";
 import { sendInquiry } from "@/lib/send-inquiry";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 type Status = "idle" | "sending" | "sent" | "mailto" | "error";
+
+/** Heute auf Mitternacht normiert – für "ab heute buchbar". */
+function startOfToday() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+/** Termine chronologisch als "Mo., 30. Juni 2026" formatieren. */
+function formatDates(dates: Date[]) {
+  return [...dates]
+    .sort((a, b) => a.getTime() - b.getTime())
+    .map((d) => format(d, "EEE, d. MMMM yyyy", { locale: de }))
+    .join(" · ");
+}
 
 export const Route = createFileRoute("/kontakt")({
   validateSearch: z.object({ kurs: z.string().optional() }),
   head: () => ({
     meta: [
       { title: "Kontakt – Pflaster Akademie" },
-      { name: "description", content: "Kontaktiere die Pflaster Akademie in Schkeuditz – wähle deinen Kurs und sende uns deine Anfrage. Schnelle, persönliche Rückmeldung." },
+      {
+        name: "description",
+        content:
+          "Kontaktiere die Pflaster Akademie in Schkeuditz – wähle deinen Kurs und sende uns deine Anfrage. Schnelle, persönliche Rückmeldung.",
+      },
       { property: "og:title", content: "Kontakt – Pflaster Akademie" },
       { property: "og:description", content: "Wir freuen uns auf deine Nachricht." },
       { property: "og:url", content: "/kontakt" },
@@ -32,6 +66,8 @@ function KontaktPage() {
   const { kurs } = Route.useSearch();
   const preselected = (kurs && courseBySlug(kurs)?.title) || "";
   const [status, setStatus] = useState<Status>("idle");
+  const [dates, setDates] = useState<Date[]>([]);
+  const [calOpen, setCalOpen] = useState(false);
   const sent = status === "sent" || status === "mailto";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -49,7 +85,7 @@ function KontaktPage() {
         email: get("email"),
         phone: get("phone"),
         participants: get("participants"),
-        date: get("date"),
+        date: dates.length ? formatDates(dates) : "",
         message: get("message"),
       });
       setStatus(result);
@@ -77,22 +113,38 @@ function KontaktPage() {
           <h2 className="font-serif text-2xl font-bold">Pflaster Akademie</h2>
           <p className="mt-4 flex items-start gap-3 text-sm text-primary-foreground/85">
             <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" aria-hidden="true" />
-            <span>Westringstr. 43<br />04435 Schkeuditz OT Dölzig<br />Deutschland</span>
+            <span>
+              Westringstr. 43
+              <br />
+              04435 Schkeuditz OT Dölzig
+              <br />
+              Deutschland
+            </span>
           </p>
-          <a href="mailto:info@pflastakad.com" className="mt-4 inline-flex items-center gap-3 text-sm font-medium hover:text-cyan-300">
+          <a
+            href="mailto:info@pflastakad.com"
+            className="mt-4 inline-flex items-center gap-3 text-sm font-medium hover:text-cyan-300"
+          >
             <Mail className="h-5 w-5 text-cyan-300" aria-hidden="true" /> info@pflastakad.com
           </a>
           <ul className="mt-8 space-y-3 border-t border-white/10 pt-6">
             {trust.map((t) => (
-              <li key={t.label} className="flex items-start gap-3 text-sm text-primary-foreground/85">
-                <t.icon className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" aria-hidden="true" /> {t.label}
+              <li
+                key={t.label}
+                className="flex items-start gap-3 text-sm text-primary-foreground/85"
+              >
+                <t.icon className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" aria-hidden="true" />{" "}
+                {t.label}
               </li>
             ))}
           </ul>
         </div>
 
         {/* Interactive form */}
-        <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)]">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)]"
+        >
           <div className="grid gap-4">
             <label className="grid gap-1.5 text-sm">
               <span className="font-medium text-foreground">Welcher Kurs interessiert dich?</span>
@@ -103,7 +155,9 @@ function KontaktPage() {
               >
                 <option value="">Allgemeine Anfrage</option>
                 {courses.map((c) => (
-                  <option key={c.slug} value={c.title}>{c.title}</option>
+                  <option key={c.slug} value={c.title}>
+                    {c.title}
+                  </option>
                 ))}
               </select>
             </label>
@@ -131,7 +185,9 @@ function KontaktPage() {
                 />
               </label>
               <label className="grid gap-1.5 text-sm">
-                <span className="font-medium text-foreground">Telefon <span className="text-muted-foreground">(optional)</span></span>
+                <span className="font-medium text-foreground">
+                  Telefon <span className="text-muted-foreground">(optional)</span>
+                </span>
                 <input
                   name="phone"
                   type="tel"
@@ -141,7 +197,9 @@ function KontaktPage() {
                 />
               </label>
               <label className="grid gap-1.5 text-sm">
-                <span className="font-medium text-foreground">Teilnehmer <span className="text-muted-foreground">(optional)</span></span>
+                <span className="font-medium text-foreground">
+                  Teilnehmer <span className="text-muted-foreground">(optional)</span>
+                </span>
                 <input
                   name="participants"
                   inputMode="numeric"
@@ -152,18 +210,65 @@ function KontaktPage() {
               </label>
             </div>
 
-            <label className="grid gap-1.5 text-sm">
-              <span className="font-medium text-foreground">Wunschtermin <span className="text-muted-foreground">(optional)</span></span>
-              <input
-                name="date"
-                placeholder="z. B. KW 30, ein Samstag oder flexibel"
-                disabled={sent}
-                className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-primary focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
-              />
-            </label>
+            <div className="grid gap-1.5 text-sm">
+              <span className="font-medium text-foreground">
+                Wunschtermine <span className="text-muted-foreground">(optional, bis zu 2)</span>
+              </span>
+              <Popover open={calOpen} onOpenChange={setCalOpen}>
+                <PopoverTrigger asChild disabled={sent}>
+                  <button
+                    type="button"
+                    className="inline-flex h-11 items-center gap-2 rounded-lg border border-input bg-background px-3 text-left text-sm outline-none transition hover:border-primary focus:border-primary focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
+                  >
+                    <CalendarDays className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    {dates.length ? (
+                      <span className="truncate">{formatDates(dates)}</span>
+                    ) : (
+                      <span className="text-muted-foreground">
+                        Kalender öffnen &amp; Termine wählen
+                      </span>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="multiple"
+                    max={2}
+                    locale={deCalendar}
+                    weekStartsOn={1}
+                    selected={dates}
+                    onSelect={(d) => setDates(d ?? [])}
+                    disabled={{ before: startOfToday() }}
+                    autoFocus
+                  />
+                  <div className="flex items-center justify-between gap-2 border-t border-border p-2">
+                    <button
+                      type="button"
+                      onClick={() => setDates([])}
+                      disabled={!dates.length}
+                      className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition hover:text-foreground disabled:opacity-40"
+                    >
+                      <X className="h-3.5 w-3.5" /> Zurücksetzen
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCalOpen(false)}
+                      className="rounded-md bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground transition hover:brightness-110"
+                    >
+                      Übernehmen
+                    </button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <p className="text-xs text-muted-foreground">
+                Wähle bis zu zwei Wunschtage – wir bestätigen den passenden Termin.
+              </p>
+            </div>
 
             <label className="grid gap-1.5 text-sm">
-              <span className="font-medium text-foreground">Nachricht <span className="text-muted-foreground">(optional)</span></span>
+              <span className="font-medium text-foreground">
+                Nachricht <span className="text-muted-foreground">(optional)</span>
+              </span>
               <textarea
                 name="message"
                 rows={3}
@@ -179,11 +284,18 @@ function KontaktPage() {
               className="mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 disabled:opacity-100 disabled:bg-emerald-600"
             >
               {status === "sending" ? (
-                <><Loader2 className="h-5 w-5 animate-spin" /> Wird gesendet …</>
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" /> Wird gesendet …
+                </>
               ) : sent ? (
-                <><Check className="h-5 w-5" /> {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}</>
+                <>
+                  <Check className="h-5 w-5" />{" "}
+                  {status === "sent" ? "Anfrage gesendet" : "E-Mail geöffnet"}
+                </>
               ) : (
-                <>Anfrage senden <Send className="h-4 w-4" /></>
+                <>
+                  Anfrage senden <Send className="h-4 w-4" />
+                </>
               )}
             </button>
             <p aria-live="polite" className="text-center text-xs text-muted-foreground">
