@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import logo from "../assets/logo.png";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -77,20 +78,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Pflaster Akademie – Erste-Hilfe-Kurse in Schkeuditz" },
+      { name: "description", content: "Praxisnahe Erste-Hilfe-Kurse für Privatpersonen, Betriebe, Fahrschüler und Eltern. Wissen rettet Leben – wir zeigen dir wie." },
+      { name: "author", content: "Pflaster Akademie" },
+      { property: "og:title", content: "Pflaster Akademie" },
+      { property: "og:description", content: "Erste-Hilfe-Kurse mit Herz und Kompetenz in Schkeuditz." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Pflaster Akademie" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", type: "image/png", href: logo },
     ],
   }),
   shellComponent: RootShell,
@@ -118,8 +120,85 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <SiteHeader />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+      </div>
     </QueryClientProvider>
+  );
+}
+
+const navLinks = [
+  { to: "/", label: "Start" },
+  { to: "/info", label: "Über uns" },
+  { to: "/kurse", label: "Kurse" },
+  { to: "/kontakt", label: "Kontakt" },
+] as const;
+
+function SiteHeader() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <Link to="/" className="flex items-center gap-3">
+          <img src={logo} alt="Pflaster Akademie Logo" className="h-12 w-12 object-contain" />
+          <span className="hidden text-lg font-semibold tracking-tight text-[var(--primary-deep)] sm:inline">
+            Pflaster Akademie
+          </span>
+        </Link>
+        <nav className="flex items-center gap-1 sm:gap-2">
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              activeOptions={{ exact: l.to === "/" }}
+              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "rounded-md px-3 py-2 text-sm font-semibold text-primary bg-secondary" }}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="border-t border-border bg-[var(--primary-deep)] text-primary-foreground">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
+        <div>
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="" className="h-10 w-10 object-contain" />
+            <span className="text-lg font-semibold">Pflaster Akademie</span>
+          </div>
+          <p className="mt-3 text-sm text-primary-foreground/80">
+            Wissen rettet Leben – wir zeigen dir wie.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary-foreground/70">Kontakt</h3>
+          <p className="mt-3 text-sm text-primary-foreground/90">
+            Westringstr. 43<br />
+            04435 Schkeuditz OT Dölzig<br />
+            <a href="mailto:info@pflastakad.com" className="underline-offset-4 hover:underline">info@pflastakad.com</a>
+          </p>
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-primary-foreground/70">Mehr</h3>
+          <ul className="mt-3 space-y-2 text-sm">
+            <li><Link to="/kurse" className="hover:underline">Kursangebote</Link></li>
+            <li><Link to="/info" className="hover:underline">Über uns</Link></li>
+            <li><Link to="/impressum" className="hover:underline">Impressum</Link></li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/60">
+        © {new Date().getFullYear()} Pflaster Akademie · Lia Chiara Daum
+      </div>
+    </footer>
   );
 }
