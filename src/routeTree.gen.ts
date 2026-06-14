@@ -10,20 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as KurseRouteImport } from './routes/kurse'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as InfoRouteImport } from './routes/info'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KurseIndexRouteImport } from './routes/kurse.index'
+import { Route as KurseSlugRouteImport } from './routes/kurse.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KurseRoute = KurseRouteImport.update({
-  id: '/kurse',
-  path: '/kurse',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktRoute = KontaktRouteImport.update({
@@ -46,22 +42,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KurseIndexRoute = KurseIndexRouteImport.update({
+  id: '/kurse/',
+  path: '/kurse/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KurseSlugRoute = KurseSlugRouteImport.update({
+  id: '/kurse/$slug',
+  path: '/kurse/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/impressum': typeof ImpressumRoute
   '/info': typeof InfoRoute
   '/kontakt': typeof KontaktRoute
-  '/kurse': typeof KurseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kurse/$slug': typeof KurseSlugRoute
+  '/kurse/': typeof KurseIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/impressum': typeof ImpressumRoute
   '/info': typeof InfoRoute
   '/kontakt': typeof KontaktRoute
-  '/kurse': typeof KurseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kurse/$slug': typeof KurseSlugRoute
+  '/kurse': typeof KurseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,8 +77,9 @@ export interface FileRoutesById {
   '/impressum': typeof ImpressumRoute
   '/info': typeof InfoRoute
   '/kontakt': typeof KontaktRoute
-  '/kurse': typeof KurseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kurse/$slug': typeof KurseSlugRoute
+  '/kurse/': typeof KurseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,18 +88,27 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/info'
     | '/kontakt'
-    | '/kurse'
     | '/sitemap.xml'
+    | '/kurse/$slug'
+    | '/kurse/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/impressum' | '/info' | '/kontakt' | '/kurse' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/impressum'
+    | '/info'
+    | '/kontakt'
+    | '/sitemap.xml'
+    | '/kurse/$slug'
+    | '/kurse'
   id:
     | '__root__'
     | '/'
     | '/impressum'
     | '/info'
     | '/kontakt'
-    | '/kurse'
     | '/sitemap.xml'
+    | '/kurse/$slug'
+    | '/kurse/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -98,8 +116,9 @@ export interface RootRouteChildren {
   ImpressumRoute: typeof ImpressumRoute
   InfoRoute: typeof InfoRoute
   KontaktRoute: typeof KontaktRoute
-  KurseRoute: typeof KurseRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  KurseSlugRoute: typeof KurseSlugRoute
+  KurseIndexRoute: typeof KurseIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,13 +128,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kurse': {
-      id: '/kurse'
-      path: '/kurse'
-      fullPath: '/kurse'
-      preLoaderRoute: typeof KurseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontakt': {
@@ -146,6 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kurse/': {
+      id: '/kurse/'
+      path: '/kurse'
+      fullPath: '/kurse/'
+      preLoaderRoute: typeof KurseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kurse/$slug': {
+      id: '/kurse/$slug'
+      path: '/kurse/$slug'
+      fullPath: '/kurse/$slug'
+      preLoaderRoute: typeof KurseSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -154,8 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   ImpressumRoute: ImpressumRoute,
   InfoRoute: InfoRoute,
   KontaktRoute: KontaktRoute,
-  KurseRoute: KurseRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  KurseSlugRoute: KurseSlugRoute,
+  KurseIndexRoute: KurseIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
