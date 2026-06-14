@@ -28,12 +28,6 @@ const trust = [
   { icon: Star, label: "4,9 / 5 Teilnehmerbewertung" },
 ];
 
-const faqs = [
-  { q: "Brauche ich Vorkenntnisse?", a: "Nein. Unsere Kurse sind so aufgebaut, dass jeder mitkommt – ganz ohne medizinisches Vorwissen." },
-  { q: "Bekomme ich eine Bescheinigung?", a: "Ja, du erhältst nach dem Kurs eine entsprechende Teilnahmebescheinigung bzw. den passenden Nachweis." },
-  { q: "Können wir auch als Gruppe oder vor Ort buchen?", a: "Sehr gern. Für Firmen, Vereine und Gruppen bieten wir individuelle Termine – auf Wunsch als Inhouse-Schulung bei euch vor Ort." },
-];
-
 function CourseDetail() {
   const { slug } = Route.useParams();
   const course = courseBySlug(slug);
@@ -153,22 +147,6 @@ function CourseDetail() {
               </blockquote>
               <figcaption className="mt-4 text-sm font-semibold text-primary">— Teilnehmerin der Pflaster Akademie</figcaption>
             </figure>
-
-            {/* FAQ */}
-            <div className="mt-12">
-              <h3 className="text-xl font-bold text-[var(--primary-deep)]">Häufige Fragen</h3>
-              <div className="mt-4 space-y-3">
-                {faqs.map((f) => (
-                  <details key={f.q} className="group rounded-xl border border-border bg-card p-5">
-                    <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-foreground marker:hidden">
-                      {f.q}
-                      <span className="text-muted-foreground transition-transform group-open:rotate-180">▾</span>
-                    </summary>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
-                  </details>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Sticky booking card */}

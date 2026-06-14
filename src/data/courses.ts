@@ -65,7 +65,7 @@ export const courses: Course[] = [
     certificate: "Teilnahmebescheinigung",
     bookingUrl: "https://www.pflastakad.com/service-page/auffrischung-erste-hilfe",
     bookingCta: "Kurs ansehen",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1622115297822-a3798fdbe1f6?w=1200&q=80&auto=format&fit=crop",
   },
   {
     slug: "betrieblicher-ersthelfer-grundkurs",
@@ -88,7 +88,7 @@ export const courses: Course[] = [
     certificate: "DGUV-anerkannt · BG-abrechenbar",
     bookingUrl: "https://www.pflastakad.com/service-page/betrieblicher-ersthelfer-grundkurs",
     bookingCta: "Kurs ansehen",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1624638760852-8ede1666ab07?w=1200&q=80&auto=format&fit=crop",
   },
   {
     slug: "betrieblicher-ersthelfer-fortbildung",
@@ -111,7 +111,7 @@ export const courses: Course[] = [
     certificate: "DGUV-anerkannt · BG-abrechenbar",
     bookingUrl: "https://www.pflastakad.com/service-page/betrieblicher-ersthelfer-fortbildung",
     bookingCta: "Kurs ansehen",
-    image: "https://images.unsplash.com/photo-1497032205916-ac775f0649ae?w=1200&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1564144573017-8dc932e0039e?w=1200&q=80&auto=format&fit=crop",
   },
   {
     slug: "erste-hilfe-fuer-fahrschueler",
@@ -134,7 +134,7 @@ export const courses: Course[] = [
     certificate: "Anerkannt für alle Führerscheinklassen",
     bookingUrl: "https://www.pflastakad.com/booking-calendar/erste-hilfe-f%C3%BCr-fahrsch%C3%BCler",
     bookingCta: "Termin buchen",
-    image: "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=1200&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1618737739013-aed8938604fb?w=1200&q=80&auto=format&fit=crop",
   },
   {
     slug: "erste-hilfe-fuer-eltern-grosseltern",
@@ -224,7 +224,7 @@ export const courses: Course[] = [
     certificate: "Individuelles Beratungsprotokoll",
     bookingUrl: "https://www.pflastakad.com/booking-calendar/erste-hilfe-beratung-1",
     bookingCta: "Beratung anfragen",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80&auto=format&fit=crop",
   },
   {
     slug: "injektions-und-medikamententraining",
